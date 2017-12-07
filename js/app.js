@@ -18,7 +18,7 @@ Enemy.prototype.update = function(dt) {
         this.x = - 101;
     }
 
-    player.checkCollision(this);
+    checkCollision(this);
 };
 
 // draw the enemy on the screen, required method for game
@@ -36,11 +36,6 @@ var Player = function() {
 
 Player.prototype.update = function() {
 // you can live without this method
-};
-
-// draw the player on the screen
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // receive user input
@@ -82,10 +77,25 @@ Player.prototype.reset = function() {
     console.log("score: ", this.score, "\nGood job!");
 };
 
-// check for collision between enemy and player
-Player.prototype.checkCollision = function(enemy) {
+// draw the player on the screen
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
+// check for collision between enemy and player
+var checkCollision = function(enemy) {
+    if (
+        player.y - enemy.y >= - 60 &&
+        player.y - enemy.y <= 60 &&
+        player.x - enemy.x >= - 60 &&
+        player.x - enemy.x <= 60
+    ) {
+        player.x = 202;
+        player.y = 405;
+        player.score = 0;
+        console.log("score: ", player.score, "\nOoops");
     }
+};
 
 // instantiate our objects
 var player = new Player();
@@ -98,7 +108,7 @@ for (var i = 0; i < 4; i++) {
 
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * max) + min;
-}
+};
 
 // this listens for key presses and sends the keys
 // to Player.handleInput() method
